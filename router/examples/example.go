@@ -1,16 +1,18 @@
 package main
 
 import (
-	"Cortago/router"
 	"fmt"
 	"net/http"
 	"net/url"
+
+	"github.com/cortago/cortago/router"
 )
 
 func main() {
+	router.Port = 5123
 	r := router.New(Root)
-	r.Handle("GET", "/", Root)
-	r.Handle("GET", "/users/:name", UserShow)
+	r.Handle("/", Root)
+	r.Handle("/users/:name", UserShow)
 
 	r.StartApp()
 }
