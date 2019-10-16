@@ -21,15 +21,14 @@ type Handle func(http.ResponseWriter, *http.Request, url.Values)
 
 // Router name says it all.
 type Router struct {
-	tree        *node
-	rootHandler Handle
+	tree *node
 }
 
 // New creates a new router. It takes the root (fall through) route
 // like how the default mux works. The only difference, you get to specify one.
-func New(rootHandler Handle) *Router {
+func New() *Router {
 	node := node{component: "/", isNamedParam: false}
-	return &Router{tree: &node, rootHandler: rootHandler}
+	return &Router{tree: &node}
 }
 
 // Handle takes an http handler, method, and pattern for a route.
@@ -38,6 +37,15 @@ func (r *Router) Handle(path string, handler Handle) {
 		panic("Path has to start with a /.")
 	}
 	r.tree.addNode(path, handler)
+}
+
+// AppendRouter appends any router on another router.
+// It is equivalent to grouping in many frameworks
+func (r *Router) AppendRouter(path string, childrenR *Router) {
+	if path[0] != '/' {
+		panic("Path has to start with a /.")
+	}
+	r.tree.addGroup(path, childrenR)
 }
 
 func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
@@ -89,6 +97,26 @@ func (n *node) addNode(path string, handler Handle) {
 		if count == 1 { // this is the last component of the url resource, so it gets the handler.
 			newNode.handles = handler
 		}
+		aNode.children = append(aNode.children, &newNode)
+		count--
+		if count == 0 {
+			break
+		}
+	}
+}
+
+// addGroup appends a router to our tree
+func (n *node) addGroup(path string, r *Router) {
+	components := strings.Split(path, "/")[1:]
+	count := len(components)
+
+	for {
+		aNode, component := n.traverse(components, nil)
+		if aNode.component == component && count == 1 { // update an existing node.
+			return
+		}
+		newNode := node{component: component, children: (*r.tree).children, isNamedParam: false}
+
 		aNode.children = append(aNode.children, &newNode)
 		count--
 		if count == 0 {
