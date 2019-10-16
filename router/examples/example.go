@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+<<<<<<< HEAD
 	router.Port = 8000
 	r := router.New()
 	r.Handle("/", Root)
@@ -17,6 +18,12 @@ func main() {
 	y := router.New()
 	y.AppendRouter("/drumil",r)
 	y.Handle("/",sd)
+=======
+	router.Port = 5123
+	r := router.New(Root)
+	r.Handle("/", Root)
+	r.Handle("/users/:name", UserShow)
+>>>>>>> bfd89eef95b6d4f691e70fa08d73878dbe5b5935
 
 	y.StartApp()
 }
