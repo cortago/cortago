@@ -26,20 +26,13 @@ type Router struct {
 
 // New creates a new router. It takes the root (fall through) route
 // like how the default mux works. The only difference, you get to specify one.
-<<<<<<< HEAD
 func New() *Router {
 	node := node{component: "/", isNamedParam: false}
 	return &Router{tree: &node}
-=======
-func New(rootHandler Handle) *Router {
-	node := node{component: "/", isNamedParam: false}
-	return &Router{tree: &node, rootHandler: rootHandler}
->>>>>>> bfd89eef95b6d4f691e70fa08d73878dbe5b5935
 }
 
 // Handle takes an http handler, method, and pattern for a route.
 func (r *Router) Handle(path string, handler Handle) {
-<<<<<<< HEAD
 	if path[0] != '/' {
 		panic("Path has to start with a /.")
 	}
@@ -53,12 +46,6 @@ func (r *Router) AppendRouter(path string, childrenR *Router) {
 		panic("Path has to start with a /.")
 	}
 	r.tree.addGroup(path, childrenR)
-=======
-	if path[0] != '/' {
-		panic("Path has to start with a /.")
-	}
-	r.tree.addNode(path, handler)
->>>>>>> bfd89eef95b6d4f691e70fa08d73878dbe5b5935
 }
 
 func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
