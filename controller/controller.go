@@ -27,7 +27,7 @@ func (c *Controller) RenderText(value string) {
 
 // Terminate a specific controller
 func (c *Controller) Terminate() {
-	c.Request.Terminate()
-	c.Response.Terminate()
-	c.Name = nil
+	c.Request = nil
+	c.Response = nil
+	c.Name = ""
 }
