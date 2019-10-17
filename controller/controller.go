@@ -24,3 +24,10 @@ func (c *Controller) Initiliaze(response http.ResponseWriter, request *http.Requ
 func (c *Controller) RenderText(value string) {
 	fmt.Fprint(c.Response, value)
 }
+
+// Terminate a specific controller
+func (c *Controller) Terminate() {
+	c.Request.Terminate()
+	c.Response.Terminate()
+	c.Name = nil
+}
