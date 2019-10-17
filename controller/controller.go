@@ -15,17 +15,17 @@ type Controller struct {
 	Type *ControllerType
 	Interface interface{}
 	Action string
-	ClientIP string
+	// ClientIP string
 
-	Request *Request
-	Response *Response
+	Request *http.Request
+	Response *http.Response
 	Result Result
 
 	Data map[string]interface{}
 }
 
 type ControllerInterface interface {
-	Init()
+	Init(cont *context.Context, Name)
 	Prepare()
 	Get()
 	Post()
@@ -40,15 +40,33 @@ type ControllerInterface interface {
 	Render() error
 }
 
-func (c *Controller) Init(ctx contextContext) {
+func (c *Controller) Init(ctx context.Context, Name) {
 
-	// c.Request.SetRequest(context.GetRequest())
+	// c.Request =
+	// c.Response =
+	c.Data = map[string]interface{}
+	c.Name = Name
+
 }
 
 // Runs after Init
 func (c *Controller) Prepare() {}
 
-func (c *Controller) End() {}
+func (c *Controller) End() {
+	if c == nil
+		return
+
+	if c.Interface != nil 
+		c.Interface = nil
+
+	c.Request.End()
+	c.Response.End()
+	c.Data = nil
+	c.Name = nil
+	c.Type = nil
+	c.Action = nil
+	c.Result = nil
+}
 
 func (c *Controller) RenderJSON(o interface{}) Result {
 	if c.Response.Status == 0 {
@@ -93,4 +111,8 @@ func (c *Controller) RenderText(text string, obj ...interface{}) Result {
 	}
 
 	return &RenderJSONResult{displayText}
+}
+
+func (c *Controller) TraverseController(string) {
+	return c.Name
 }
