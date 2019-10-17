@@ -1,4 +1,4 @@
-package cortago
+package controller
 
 import (
 	"fmt"
