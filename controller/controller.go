@@ -14,10 +14,9 @@ type Controller struct {
 }
 
 // Initiliaze values for specific controller
-func (c *Controller) Initiliaze(response http.ResponseWriter, request *http.Request, name string) {
+func (c *Controller) Initiliaze(response http.ResponseWriter, request *http.Request) {
 	c.Request = request
 	c.Response = response
-	c.Name = name
 }
 
 // RenderText is used to render a text of value
@@ -29,5 +28,4 @@ func (c *Controller) RenderText(value string) {
 func (c *Controller) Terminate() {
 	c.Request = nil
 	c.Response = nil
-	c.Name = ""
 }
