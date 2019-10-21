@@ -1,6 +1,16 @@
-# <Feature or Bug Title>
+### Please check if the PR fulfills these requirements:
 
-Issue ID: **_#ADD issue id_**
+* [ ] The PR title and message should be precise and accurate
+* [ ] Tests for the changes have been added/updated (Not yet implemented)
+* [ ] Documentation has been updated/added (Commenting should be clear)
 
-Attach image/gif: **_#ADD image of solved bug or added feature_**
+### What is the current behavior?
+<!-- List issue if it fixes/closes/implements one using the "Fixes #<number>" or "Closes #<number>" syntax -->
 
+### What is the new behavior?
+
+### What is the new feature (if applicable)?
+
+### Other information?
+<!-- Is this a breaking change? -->
+<!-- How did you test -->
