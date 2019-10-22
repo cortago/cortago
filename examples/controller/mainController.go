@@ -1,9 +1,10 @@
 package controller
 
 import (
-	"cortago/controller"
 	"net/http"
 	"net/url"
+
+	"github.com/cortago/cortago/controller"
 )
 
 type MainController struct {
