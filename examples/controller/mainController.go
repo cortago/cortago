@@ -10,8 +10,22 @@ type MainController struct {
 	controller.Controller
 }
 
+type Person struct {
+	Name   string
+	Emails []string
+}
+
 func (c *MainController) Index(w http.ResponseWriter, r *http.Request, params url.Values) {
 	c.Initiliaze(w, r)
-	c.RenderText(c.Name + " is working")
+	persons := struct {
+		Persons []Person
+	}{[]Person{
+		Person{Name: "Drumil",
+			Emails: []string{"drumilpatel720@gmail.com", "pnileshbhai@ee.iitr.ac.in"}},
+		Person{Name: "Bismita",
+			Emails: []string{"bguha@mt.iitr.ac.in"}},
+	}}
+	c.Directory = "views"
+	c.RenderHTML("layout", persons)
 	c.Terminate()
 }
