@@ -1,0 +1,19 @@
+
+{{define "title"}}Cortago Contributors{{end}}
+
+{{define "body"}}
+    <h2>This is working from content.html</h2>
+    
+    <ol>
+        {{range .Persons }}
+            <li>
+                The name is <b>{{.Name}}.</b>
+                <ol>
+                    {{range .Emails}}
+                        <li>His email id is <a href="{{.}}">{{.}}</a></li>
+                    {{end}}
+                </ol>
+            </li>
+        {{end}}
+        </ol>
+{{end}}
