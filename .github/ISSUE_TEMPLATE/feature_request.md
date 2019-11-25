@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-**What problem are you facing in Cortago**
+**What features are you proposing in Cortago**
 A clear and concise description of what the problem is.
 
 **Describe the way you'd like to solve this problem(Optional)**
