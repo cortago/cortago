@@ -4,13 +4,13 @@
 {{define "body"}}
     <h2>This is working from content.html</h2>
     
-    <ol>
+    <ol class="persons">
         {{range .Persons }}
-            <li>
+            <li class="person">
                 The name is <b>{{.Name}}.</b>
                 <ol>
                     {{range .Emails}}
-                        <li>His email id is <a href="{{.}}">{{.}}</a></li>
+                        <li class="items">His email id is <a href="{{.}}">{{.}}</a></li>
                     {{end}}
                 </ol>
             </li>

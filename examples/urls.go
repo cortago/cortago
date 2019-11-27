@@ -3,7 +3,7 @@ package main
 import (
 	"cortago/examples/controller"
 
-	"github.com/cortago/cortago/router"
+	"cortago/router"
 )
 
 func main() {
@@ -20,6 +20,7 @@ func main() {
 	second.Handle("/list", secondController.List)
 
 	y := router.New()
+	y.FileServer("/assets")
 	y.AppendRouter("/main", main)
 	y.AppendRouter("/second", second)
 
