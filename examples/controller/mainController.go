@@ -25,6 +25,8 @@ func (c *MainController) Index(w http.ResponseWriter, r *http.Request, params ur
 			Emails: []string{"drumilpatel720@gmail.com", "pnileshbhai@ee.iitr.ac.in"}},
 		Person{Name: "Bismita",
 			Emails: []string{"bguha@mt.iitr.ac.in"}},
+		Person{Name: "BismitaXY",
+			Emails: []string{"bgusha@mt.iitr.ac.in"}},
 	}}
 	c.Directory = "views"
 	c.RenderHTML("layout", persons)
