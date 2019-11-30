@@ -48,6 +48,14 @@ func (r *Router) AppendRouter(path string, childrenR *Router) {
 	r.tree.addGroup(path, childrenR)
 }
 
+// FileServer adds a file server on router
+func (r *Router) FileServer(path string) {
+	if path[0] != '/' {
+		panic("Path has to start with a /.")
+	}
+	r.tree.addFileServer(path)
+} 
+
 func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	req.ParseForm()
 	params := req.Form
@@ -57,6 +65,8 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	node, _ := r.tree.traverse(strings.Split(req.URL.Path, "/")[1:], params)
 	if handler := node.handles; handler != nil {
 		handler(w, req, params)
+	} else if node.isFileServer {
+		http.ServeFile(w,req,req.URL.Path[1:])
 	} else {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 	}
@@ -74,6 +84,11 @@ type node struct {
 	component    string
 	isNamedParam bool
 	handles      Handle
+	isFileServer bool
+}
+
+type fileServer struct {
+	directory string
 }
 
 // addNode - adds a node to our tree. Will add multiple nodes if path
@@ -96,6 +111,32 @@ func (n *node) addNode(path string, handler Handle) {
 		}
 		if count == 1 { // this is the last component of the url resource, so it gets the handler.
 			newNode.handles = handler
+		}
+		aNode.children = append(aNode.children, &newNode)
+		count--
+		if count == 0 {
+			break
+		}
+	}
+}
+
+// addFileServer - adds a node to our treewhich represents a file server
+// File Server is a server which directly hosts all files in particular
+// directory. For eg assets/js and assets/css all files in directory are 
+// hosted
+func (n *node) addFileServer(path string) {
+	components := strings.Split(path, "/")[1:]
+	count := len(components)
+
+	for {
+		aNode, component := n.traverse(components, nil)
+		if aNode.component == component && count == 1 { // update an existing node.
+			aNode.isFileServer = true
+			return
+		}
+		newNode := node{component: component, isNamedParam: false}
+		if count == 1 { // this is the last component of the url resource, so it gets the handler.
+			newNode.isFileServer = true
 		}
 		aNode.children = append(aNode.children, &newNode)
 		count--
@@ -138,7 +179,10 @@ func (n *node) traverse(components []string, params url.Values) (*node, string) 
 				next := components[1:]
 				if len(next) > 0 { // http://xkcd.com/1270/
 					return child.traverse(next, params) // tail recursion is it's own reward.
+				} else if child.isFileServer {
+					return child, component
 				}
+
 				return child, component
 			}
 		}
