@@ -54,7 +54,7 @@ func (r *Router) FileServer(path string) {
 		panic("Path has to start with a /.")
 	}
 	r.tree.addFileServer(path)
-} 
+}
 
 func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	req.ParseForm()
@@ -66,7 +66,7 @@ func (r *Router) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	if handler := node.handles; handler != nil {
 		handler(w, req, params)
 	} else if node.isFileServer {
-		http.ServeFile(w,req,req.URL.Path[1:])
+		http.ServeFile(w, req, req.URL.Path[1:])
 	} else {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 	}
@@ -122,7 +122,7 @@ func (n *node) addNode(path string, handler Handle) {
 
 // addFileServer - adds a node to our treewhich represents a file server
 // File Server is a server which directly hosts all files in particular
-// directory. For eg assets/js and assets/css all files in directory are 
+// directory. For eg assets/js and assets/css all files in directory are
 // hosted
 func (n *node) addFileServer(path string) {
 	components := strings.Split(path, "/")[1:]
