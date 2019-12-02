@@ -1,4 +1,4 @@
-# Cortago
+# Cortago [![Go Report Card](https://goreportcard.com/badge/github.com/cortago/cortago)](https://goreportcard.com/report/github.com/cortago/cortago)
 MVC Framework for all your needs
 
 ## Setup
